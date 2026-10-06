@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /pay.html
+
+Sitemap: https://zulage.dokuwell.com/sitemap.xml
