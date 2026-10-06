@@ -1,24 +1,22 @@
-/* Комплект forschungszulage-festsetzung. Счётчики и форма заводятся основной сессией (П-84);
-   до этого поля пусты и страница горит красной полосой. */
+/* Комплект forschungszulage-festsetzung. Аналитику ставит контейнер Google Tag Manager (СМ-09 «Смоков»):
+   код контейнера стоит в каждой странице, smoke.js только кладёт события в dataLayer.
+   Форма почты заводится основной сессией (П-84); пока FORM_ID пуст — красная полоса. */
 window.SMOKE = {
   KIT: "forschungszulage-festsetzung",
-  METRIKA_ID: "",
-  GA_ON: true,  /* в России — только Метрика (П-84, 152-ФЗ) */
-  GA4_ID: "",
-  FORM_ID: "",  /* Яндекс.Форма «сообщить о запуске», одно поле; после отправки — переход на pay.html?sent=1 */
-  CONSENT_BANNER: false,  /* баннера нет — решение Владельца 06.10.2026 */
-  WEBVISOR: false
+  GTM_ID: "GTM-N2ZVHWW8",  /* контейнер Google Tag Manager этого комплекта; счётчики ставит он */
+  FORM_ID: ""   /* Яндекс.Форма «сообщить о запуске», одно поле; после отправки — переход на экран оплаты с ?sent=1 */
 };
 
 /* Прибор активности смоука — П-84 дела и навык sozdanie-smoka (forma-i-celi.md §3).
-   Замер — активность посетителей: Яндекс Метрика везде, Google Analytics — только
-   на зарубежных страницах (GA_ON); в России — одна Метрика (152-ФЗ).
+   На зарубежных страницах счётчики (Google Analytics, Метрика) ставит контейнер GTM;
+   smoke.js НЕ грузит tag.js и gtag.js и не вызывает ym / gtag — иначе двойной счёт.
+   Событие уходит одним путём: dataLayer.push({event: имя, ...параметры}).
    Канонические имена: cta_click (главная кнопка), payment_click (каждая кнопка,
    которая поведёт к оплате — числитель исхода; второй оффер — payment_click_new),
    click_<имя> (каждая прочая кнопка и ссылка; кнопка оплаты шлёт и своё
    click_pay_<тариф>), feature_<имя> (функции), form_start / form_submit_click
-   (намерение), email_submit (почта о запуске на pay.html), scroll_25/50/75/100,
-   price_view. Время на странице — штатный показатель обоих счётчиков.
+   (намерение), email_submit (почта о запуске на экране оплаты), scroll_25/50/75/100,
+   price_view (открыт экран цен price.html), pay_view (открыт экран оплаты).
 
    Разметка страницы:
      data-ev="имя [имя2]" — события клика (a, button, summary), через пробел
@@ -26,15 +24,13 @@ window.SMOKE = {
      data-ev-focus="имя"  — первое касание поля (намерение), один раз
      <body data-page="pay"> — честный экран оплаты: pay_view с тарифом / функцией;
                               почта о запуске — Яндекс.Форма FORM_ID в #email-box,
-                              возврат с формы на pay.html?sent=1 → email_submit
-     #consent             — баннер согласия (CONSENT_BANNER), сейчас выключен
+                              возврат с формы на экран оплаты с ?sent=1 → email_submit
 
-   Пустой счётчик или форма — красная полоса: страницу с неработающим прибором
-   не публикуют. Контактов Владельца нет. */
+   Контейнер GTM своего номера не загрузился или FORM_ID пуст — красная полоса:
+   страницу с неработающим прибором не публикуют. Контактов Владельца нет. */
 
 (function () {
   var S = window.SMOKE || {};
-  var loaded = false;
   var sent = {};
 
   function alarm(text) {
@@ -81,61 +77,17 @@ window.SMOKE = {
     }
   }
 
-  function loadCounters() {
-    if (loaded) return;
-    loaded = true;
-    if (S.METRIKA_ID) {
-      (function (m, e, t, r, i, k, a) {
-        m[i] = m[i] || function () { (m[i].a = m[i].a || []).push(arguments); };
-        m[i].l = 1 * new Date();
-        k = e.createElement(t); a = e.getElementsByTagName(t)[0];
-        k.async = 1; k.src = r; a.parentNode.insertBefore(k, a);
-      })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-      try {
-        ym(S.METRIKA_ID, "init", { clickmap: true, trackLinks: true, accurateTrackBounce: true, webvisor: !!S.WEBVISOR });
-      } catch (e) {}
-    }
-    if (S.GA_ON && S.GA4_ID) {
-      var g = document.createElement("script");
-      g.async = 1; g.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(S.GA4_ID);
-      (document.head || document.documentElement).appendChild(g);
-      gtag("js", new Date());
-      gtag("config", S.GA4_ID);
-    }
-  }
-
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = window.gtag || function () { dataLayer.push(arguments); };
-
-  /* Единая точка события: цель Метрики «Целевое событие» с тем же
-     идентификатором (условие «Совпадает») и, за рубежом, событие GA4. */
+  /* Единая точка события: только dataLayer. Теги GA4 и Метрики в контейнере GTM
+     ловят событие по имени (custom event). */
   function track(name, params) {
     params = params || {};
     params.kit = S.KIT;
-    try { if (S.METRIKA_ID && window.ym) ym(S.METRIKA_ID, "reachGoal", name, params); } catch (e) {}
-    try { if (S.GA_ON && S.GA4_ID && window.gtag) gtag("event", name, params); } catch (e) {}
+    window.dataLayer = window.dataLayer || [];
+    try { window.dataLayer.push(Object.assign({ event: name }, params)); } catch (e) {}
     try { console.log("[smoke] " + name, params); } catch (e) {}
   }
   function once(name, params) { if (!sent[name]) { sent[name] = 1; track(name, params); } }
   window.smokeTrack = track;
-
-  function consent() {
-    var box = document.getElementById("consent"), v = "";
-    if (!S.CONSENT_BANNER) { loadCounters(); return; }
-    gtag("consent", "default", { analytics_storage: "denied", ad_storage: "denied", ad_user_data: "denied", ad_personalization: "denied" });
-    try { v = localStorage.getItem("smoke_consent_" + S.KIT) || ""; } catch (e) {}
-    if (v === "yes") { gtag("consent", "update", { analytics_storage: "granted" }); loadCounters(); return; }
-    if (v === "no" || !box) return;
-    box.hidden = false;
-    box.addEventListener("click", function (ev) {
-      var b = ev.target.closest ? ev.target.closest("[data-consent]") : null, ans;
-      if (!b) return;
-      ans = b.getAttribute("data-consent");
-      try { localStorage.setItem("smoke_consent_" + S.KIT, ans); } catch (e) {}
-      box.hidden = true;
-      if (ans === "yes") { gtag("consent", "update", { analytics_storage: "granted" }); loadCounters(); }
-    });
-  }
 
   function wireClicks() {
     document.addEventListener("click", function (ev) {
@@ -144,7 +96,7 @@ window.SMOKE = {
       names = (el.getAttribute("data-ev") || "click_other").split(/\s+/);
       p = { label: (el.textContent || "").replace(/\s+/g, " ").trim().slice(0, 60) };
       if (el.getAttribute("href")) p.href = el.getAttribute("href").split("?")[0];
-      for (i = 0; i < names.length; i++) { if (names[i]) track(names[i], p); }
+      for (i = 0; i < names.length; i++) { if (names[i]) track(names[i], Object.assign({}, p)); }
     }, true);
   }
 
@@ -182,7 +134,7 @@ window.SMOKE = {
 
   /* Честный экран оплаты и почта о запуске (П-84, «Поле почты для желающих»):
      поле необязательное, приёмник — Яндекс.Форма одним полем; форма после
-     отправки ведёт на pay.html?sent=1 — тогда уходит email_submit. В исход
+     отправки ведёт на экран оплаты с ?sent=1 — тогда уходит email_submit. В исход
      не входит. Пока FORM_ID пуст — поля нет и горит полоса. */
   function payPage() {
     if (!document.body || document.body.getAttribute("data-page") !== "pay") return;
@@ -214,15 +166,24 @@ window.SMOKE = {
     box.querySelector("[data-form-slot]").appendChild(f);
   }
 
-  var miss = [];
-  if (!S.METRIKA_ID) miss.push("METRIKA_ID");
-  if (S.GA_ON && !S.GA4_ID) miss.push("GA4_ID");
-  if (miss.length) {
-    alarm("ПРИБОР НЕ РАБОТАЕТ: в smoke.js пусто " + miss.join(" и ") + " — события активности не собираются (П-84).");
+  /* Аналитика подключена = контейнер своего номера загрузился (СМ-09).
+     gtm.js грузится асинхронно — проверка после загрузки страницы с запасом. */
+  function checkGtm() {
+    if (!S.GTM_ID) {
+      alarm("ПРИБОР НЕ РАБОТАЕТ: в smoke.js пусто GTM_ID — события активности не собираются (СМ-09, П-84).");
+      return;
+    }
+    function test() {
+      if (!(window.google_tag_manager && window.google_tag_manager[S.GTM_ID])) {
+        alarm("ПРИБОР НЕ РАБОТАЕТ: контейнер " + S.GTM_ID + " не загрузился — события активности не собираются (СМ-09, П-84).");
+      }
+    }
+    function later() { setTimeout(test, 4000); }
+    if (document.readyState === "complete") { later(); } else { window.addEventListener("load", later); }
   }
 
   function start() {
-    keepMarks(); consent(); wireClicks(); wireIntents(); wireScroll(); wireViews(); payPage();
+    keepMarks(); wireClicks(); wireIntents(); wireScroll(); wireViews(); payPage(); checkGtm();
   }
   if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", start); } else { start(); }
 })();
