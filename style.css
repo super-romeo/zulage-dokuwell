@@ -1,0 +1,136 @@
+/* Тема страниц смоуков (06.10.2026, вторая редакция). Слово Владельца:
+   «я имел в виду элементы и цвета, не лэйаут». Строй страниц — прежний;
+   от образца взяты только цвета, шрифт и вид элементов (кнопки, карточки,
+   «бровь», таблица, аккордеон, шапка, подвал). Значения сняты с образца
+   (вычисленные стили, переведены в hex). Код свой, внешних шрифтов нет. */
+:root{
+  --bg:#fcfcfc;            /* фон */
+  --ink:#05080b;           /* текст */
+  --muted:#5c646f;         /* вторичный текст, меню */
+  --line:#dfe1e5;          /* рамки */
+  --card:#ffffff;          /* карточки */
+  --alt:#f7f8f9;           /* чередующаяся секция (#f0f2f5 при 40 % на #fcfcfc) */
+  --accent:#006acf;        /* кнопки, акцент */
+  --accent-soft:#d6efff;   /* фон «брови» */
+  --accent-num:#b1ddff;    /* крупные цифры */
+  --navy:#0b223e;          /* тёмный основной */
+  --radius:12px;           /* малые элементы */
+  --radius-lg:21.6px;      /* карточки */
+  --radius-tbl:16.8px;     /* таблица */
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/24px Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);transition:color .15s cubic-bezier(.4,0,.2,1)}
+[hidden]{display:none!important}
+.wrap{max-width:920px;margin:0 auto;padding:0 24px}
+
+/* шапка */
+header{background:rgba(255,255,255,.92);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;flex-wrap:wrap}
+.logo{font-weight:700;font-size:17px;letter-spacing:-.2px}
+.logo a{color:var(--ink);text-decoration:none}
+nav.top a{color:var(--muted);text-decoration:none;margin-left:24px;font-size:14px;line-height:20px}
+nav.top a:hover{color:var(--ink)}
+
+/* заголовки и текст */
+h1{font-size:60px;line-height:1.2;font-weight:700;letter-spacing:-1.5px;margin:0 0 20px;color:var(--ink)}
+h2{font-size:40px;line-height:1.1;font-weight:700;letter-spacing:-1px;margin:0 0 24px;color:var(--ink)}
+h3{font-size:20px;line-height:28px;font-weight:700;letter-spacing:-.5px;margin:0 0 6px}
+.hero{padding:72px 0 24px}
+.sub,.lead{font-size:20px;line-height:32.5px;color:var(--muted);margin:0 0 30px;max-width:760px}
+.fine{color:var(--muted);font-size:14px;line-height:20px}
+.muted{color:var(--muted)}
+.eyebrow{display:inline-block;margin:0 0 22px;padding:6px 16px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-size:12px;line-height:16px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase}
+
+/* кнопки: «пилюля», основная — заливка акцентом, вторая — белая с рамкой */
+a.cta,.btn{display:inline-block;text-decoration:none;border-radius:999px;transition:opacity .15s cubic-bezier(.4,0,.2,1),background-color .15s cubic-bezier(.4,0,.2,1)}
+a.cta{background:var(--accent);color:#fff;font-size:16px;line-height:24px;font-weight:600;padding:16px 32px;margin:0 10px 10px 0}
+a.cta:hover{opacity:.9}
+a.cta.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500;padding:15px 31px}
+a.cta.ghost:hover{background:var(--alt);opacity:1}
+.btn{margin-top:14px;padding:10px 20px;font-size:14px;line-height:20px;font-weight:500;color:var(--ink);background:#fff;border:1px solid var(--line)}
+.btn:hover{background:var(--alt)}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-size:16px;line-height:24px;font-weight:600;padding:16px 32px}
+.btn.primary:hover{opacity:.9;background:var(--accent)}
+.cta-note,.note{color:var(--muted);font-size:14px;line-height:20px;margin:16px 0 0}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 0}
+.center .actions{justify-content:center}
+
+/* секции: без линий, чередование фона */
+section{padding:72px 0;border-top:0}
+.wrap > section:nth-of-type(even){background:var(--alt);box-shadow:0 0 0 100vmax var(--alt);clip-path:inset(0 -100vmax)}
+.band{background:var(--accent-soft);border:0;border-radius:var(--radius);padding:16px 20px;margin:32px 0;font-size:16px;color:var(--ink)}
+.band b{color:var(--navy)}
+
+/* карточки */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius-lg);padding:32px;display:flex;flex-direction:column;gap:6px}
+.card > b{display:block;font-size:20px;line-height:28px;letter-spacing:-.5px;color:var(--ink);margin-bottom:4px}
+.card span,.card p{color:var(--muted);font-size:16px;line-height:24px;margin:0}
+.card .btn{align-self:flex-start}
+/* кнопки оплаты — основной вид (заливка акцентом) */
+a.btn[data-ev*="payment_click"]{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+a.btn[data-ev*="payment_click"]:hover{opacity:.9;background:var(--accent)}
+.price{font-size:40px;font-weight:700;letter-spacing:-1px;margin:6px 0}
+.cmp{color:var(--muted);font-size:14px;line-height:20px;margin:20px 0 0}
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+ol.steps li{counter-increment:s;position:relative;padding:0 0 18px 64px;min-height:48px}
+ol.steps li:before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:-6px;font-size:40px;line-height:48px;font-weight:900;color:var(--accent-num)}
+
+/* таблица (если страница её покажет) */
+table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:var(--radius-tbl);overflow:hidden;background:var(--card)}
+th{font-size:14px;line-height:20px;font-weight:600;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);text-align:left;padding:12px 16px;background:var(--alt);border-bottom:1px solid var(--line)}
+td{font-size:16px;line-height:24px;font-weight:500;padding:12px 16px;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+
+/* аккордеон (если страница его покажет) */
+details{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;padding:20px 0;font-size:16px;line-height:24px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"";flex:none;width:8px;height:8px;margin-top:7px;border-right:1.5px solid var(--muted);border-bottom:1.5px solid var(--muted);transform:rotate(45deg);transition:transform .2s}
+details[open] summary:after{transform:rotate(-135deg);margin-top:11px}
+details p{margin:0 0 20px;color:var(--muted)}
+
+/* поле выбора в блоке «старт» */
+select{font:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;min-width:260px;max-width:100%}
+select:focus{outline:2px solid #0086dd;outline-offset:1px}
+
+/* подвал — тёмный */
+footer{background:var(--ink);color:var(--bg);border-top:0;margin-top:0;padding:28px 0;font-size:14px;line-height:20px}
+footer a{color:var(--bg)}
+footer .muted{color:#9aa1aa;margin:10px 0 0}
+
+/* служебные страницы (экран оплаты, политика) */
+header.site{position:sticky}
+.bar{display:flex;align-items:center;gap:16px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;color:var(--ink);text-decoration:none}
+.brand .mark{width:24px;height:24px;border-radius:7px;background:var(--accent)}
+.page{padding:72px 0 88px}
+.narrow{max-width:760px}
+.center{text-align:center}
+.page h1{font-size:44px;letter-spacing:-1px}
+.doc h2{font-size:22px;letter-spacing:-.3px;margin:32px 0 8px}
+.doc p{margin:0;color:#2a3139}
+footer.site-foot{background:var(--ink)}
+
+/* баннер согласия (размечен, выключен) */
+#consent{position:fixed;left:16px;right:16px;bottom:16px;z-index:30;max-width:760px;margin:0 auto;background:var(--ink);color:#fff;padding:16px 20px;border-radius:var(--radius);font-size:14px}
+#consent button{margin:8px 0 0 10px;padding:8px 16px;border-radius:999px;border:0;font-weight:600;cursor:pointer}
+[role=alert]{position:relative;z-index:40}
+
+@media (max-width:760px){
+  nav.top{display:none}
+  .hero{padding:48px 0 16px}
+  h1{font-size:36px;letter-spacing:-.8px}
+  h2{font-size:30px;letter-spacing:-.6px}
+  .sub,.lead{font-size:18px;line-height:28px}
+  section{padding:56px 0}
+  .card{padding:24px}
+  a.cta{display:block;text-align:center;margin:0 0 12px}
+  .page h1{font-size:32px}
+  select{min-width:0;width:100%}
+}
+@media (max-width:480px){
+  .wrap{padding:0 16px}
+}
