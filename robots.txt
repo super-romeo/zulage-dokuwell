@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://zulage.dokuwell.com/sitemap.xml
+Sitemap: https://forschungszulage.dokuwell.com/sitemap.xml
