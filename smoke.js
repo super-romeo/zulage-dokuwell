@@ -159,7 +159,7 @@ window.SMOKE = {
     if (!/\.veridok\.ru$/.test(location.hostname)) {
       /* Не РФ: русская подпись Яндекс Форм внизу рамки срезается (слово Владельца 16.10.2026). */
       slot.style.overflow = "hidden";
-      f.style.marginBottom = "-100px";
+      f.style.marginBottom = "-66px";
     }
     slot.appendChild(f);
   }
