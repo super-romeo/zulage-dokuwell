@@ -34,16 +34,8 @@ window.SMOKE = {
   var sent = {};
 
   function alarm(text) {
-    function put() {
-      if (!document.body) return;
-      var d = document.createElement("div");
-      d.setAttribute("role", "alert");
-      d.style.cssText = "background:#b00020;color:#fff;padding:10px 16px;"
-        + "font:600 14px/1.45 system-ui,-apple-system,Segoe UI,Arial,sans-serif;text-align:center";
-      d.appendChild(document.createTextNode(text));
-      document.body.insertBefore(d, document.body.firstChild);
-    }
-    if (document.body) { put(); } else { document.addEventListener("DOMContentLoaded", put); }
+    /* Служебное — только в консоль: посетителю не показывается (слово Владельца 16.10.2026). */
+    if (window.console && console.warn) console.warn("[smoke] " + text);
   }
 
   /* Метки визита (utm_*, gclid, yclid) живут в sessionStorage и не теряются
