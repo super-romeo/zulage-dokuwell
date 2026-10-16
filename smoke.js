@@ -155,7 +155,13 @@ window.SMOKE = {
     f.title = "email";
     f.setAttribute("frameborder", "0");
     f.style.cssText = "border:0;display:block;width:100%;min-height:220px";
-    box.querySelector("[data-form-slot]").appendChild(f);
+    var slot = box.querySelector("[data-form-slot]");
+    if (!/\.veridok\.ru$/.test(location.hostname)) {
+      /* Не РФ: русская подпись Яндекс Форм внизу рамки срезается (слово Владельца 16.10.2026). */
+      slot.style.overflow = "hidden";
+      f.style.marginBottom = "-100px";
+    }
+    slot.appendChild(f);
   }
 
   /* Аналитика подключена = контейнер своего номера загрузился (СМ-09).
