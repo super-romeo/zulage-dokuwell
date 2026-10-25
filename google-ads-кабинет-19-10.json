@@ -1,0 +1,173 @@
+{
+ "смок": "zulage",
+ "кампания": "24352082074",
+ "снято": "19.10.2026, Google Ads API, «Смоки» (только чтение)",
+ "фразы": [
+  {
+   "группа": "Forschungszulage",
+   "фраза": "forschungszulage",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "forschungszulage berechnen",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "forschungszulage beratung",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "forschungszulage elster",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "forschungszulage software",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "bsfz bescheinigung",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "forschungszulage dienstleister",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "forschungszulage stundenaufzeichnung",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "forschungszulage stundennachweis",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "antrag auf festsetzung der forschungszulage",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "forschungszulage antrag finanzamt",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "forschungszulage festsetzung",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "forschungszulage zweiter schritt",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "forschungszulage betriebsprüfung",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "stundenzettel forschungszulage",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  },
+  {
+   "группа": "Forschungszulage",
+   "фраза": "fue stundennachweis",
+   "соответствие": "PHRASE",
+   "состояние": "ENABLED"
+  }
+ ],
+ "минус_слова_группы": [],
+ "минус_слова_кампании": [
+  {
+   "фраза": "jobs",
+   "соответствие": "BROAD"
+  },
+  {
+   "фраза": "schulung",
+   "соответствие": "BROAD"
+  },
+  {
+   "фраза": "gratis",
+   "соответствие": "BROAD"
+  },
+  {
+   "фраза": "kostenlos",
+   "соответствие": "BROAD"
+  },
+  {
+   "фраза": "seminar",
+   "соответствие": "BROAD"
+  },
+  {
+   "фраза": "ausbildung",
+   "соответствие": "BROAD"
+  },
+  {
+   "фраза": "stellenangebote",
+   "соответствие": "BROAD"
+  },
+  {
+   "фраза": "gehalt",
+   "соответствие": "BROAD"
+  },
+  {
+   "фраза": "studium",
+   "соответствие": "BROAD"
+  },
+  {
+   "фраза": "muster",
+   "соответствие": "BROAD"
+  }
+ ],
+ "объявления": [
+  {
+   "группа": "Forschungszulage",
+   "состояние": "ENABLED",
+   "ссылки": [
+    "https://forschungszulage.dokuwell.com/?utm_source=google&utm_medium=cpc&utm_campaign=zulage"
+   ],
+   "заголовки": [
+    "Forschungszulage festsetzen",
+    "BSFZ-Bescheinigung erhalten?",
+    "FuE-Stundennachweis je Monat",
+    "Antrag auf Festsetzung",
+    "Entwurf für ELSTER",
+    "Nach BMF-Vorlage",
+    "Festpreis statt Provision",
+    "Lohnjournal hochladen",
+    "Zweiter Schritt nach BSFZ",
+    "Antrag beim Finanzamt"
+   ],
+   "описания": [
+    "BSFZ-Bescheinigung und Lohnjournal hochladen – Stundennachweis je FuE-Mitarbeiter.",
+    "Entwurf des Antrags auf Festsetzung der Forschungszulage zur Übernahme in ELSTER.",
+    "Stundennachweis nach BMF-Vorlage, monatlich und prüffest dokumentiert.",
+    "Festpreis statt Prozent der Zulage. Jetzt ansehen, was Sie brauchen."
+   ]
+  }
+ ]
+}
