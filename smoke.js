@@ -15,7 +15,7 @@ window.SMOKE = {
    которая поведёт к оплате — числитель исхода; второй оффер — payment_click_new),
    click_<имя> (каждая прочая кнопка и ссылка; кнопка оплаты шлёт и своё
    click_pay_<тариф>), feature_<имя> (функции), form_start / form_submit_click
-   (намерение), email_submit (почта о запуске на экране оплаты), scroll_25/50/75/100,
+   (намерение), email_submit (почта о запуске на экране оплаты), прокрутка — карта скроллинга Метрики и scroll GA4,
    price_view (открыт экран цен price.html), pay_view (открыт экран оплаты).
 
    Разметка страницы:
@@ -71,7 +71,12 @@ window.SMOKE = {
 
   /* Единая точка события: только dataLayer. Теги GA4 и Метрики в контейнере GTM
      ловят событие по имени (custom event). */
+  /* Клики, кроме кнопок оплаты, просмотры блоков, кроме start/price/pay_view, и прокрутку пишут карта
+     кликов, карта скроллинга и Вебвизор Метрики и событие scroll GA4 — своими событиями они не шлются
+     (слово Владельца 28.10.2026, РК-13; правило — прибор «Рекламы» schetchiki.py, DROP_RE). */
+  var DROP = /^(scroll_\d+$|feature_|cta_|click_(?!pay_)|(?!(start|price|pay)_view$)[a-z0-9_]+_view$)/;
   function track(name, params) {
+    if (DROP.test(name)) return;
     params = params || {};
     params.kit = S.KIT;
     window.dataLayer = window.dataLayer || [];
@@ -100,17 +105,6 @@ window.SMOKE = {
     }
     document.addEventListener("focusin", f, true);
     document.addEventListener("change", f, true);
-  }
-
-  function wireScroll() {
-    var steps = [25, 50, 75, 100];
-    function f() {
-      var h = document.documentElement, max = h.scrollHeight - h.clientHeight, pct, i;
-      pct = max > 0 ? Math.round(100 * (window.pageYOffset || h.scrollTop) / max) : 100;
-      if (pct >= 99) pct = 100;
-      for (i = 0; i < steps.length; i++) { if (pct >= steps[i]) once("scroll_" + steps[i]); }
-    }
-    window.addEventListener("scroll", f, { passive: true });
   }
 
   function wireViews() {
@@ -181,7 +175,7 @@ window.SMOKE = {
   }
 
   function start() {
-    keepMarks(); wireClicks(); wireIntents(); wireScroll(); wireViews(); payPage(); checkGtm();
+    keepMarks(); wireClicks(); wireIntents(); wireViews(); payPage(); checkGtm();
   }
   if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", start); } else { start(); }
 })();
