@@ -72,11 +72,18 @@ window.SMOKE = {
   /* Единая точка события: только dataLayer. Теги GA4 и Метрики в контейнере GTM
      ловят событие по имени (custom event). */
   /* Клики, кроме кнопок оплаты, просмотры блоков, кроме start/price/pay_view, и прокрутку пишут карта
-     кликов, карта скроллинга и Вебвизор Метрики и событие scroll GA4 — своими событиями они не шлются
+     кликов, карта скроллинга и Вебвизор Метрики и событие scroll GA4 — целями они не шлются
      (слово Владельца 28.10.2026, РК-13; правило — прибор «Рекламы» schetchiki.py, DROP_RE). */
   var DROP = /^(scroll_\d+$|feature_|cta_|click_(?!pay_)|(?!(start|price|pay)_view$)[a-z0-9_]+_view$)/;
   function track(name, params) {
-    if (DROP.test(name)) return;
+    if (DROP.test(name)) {  /* не цель: параметр визита Метрики, за рубежом — обычное событие GA4 (РК-13, 09.11.2026) */
+      try { if (S.METRIKA_ID && window.ym) ym(S.METRIKA_ID, "params", /^scroll_/.test(name) ? { scroll: name.slice(7) } : { click: name }); } catch (e) {}
+      try {
+        if (S.GA_ON && S.GA4_ID && window.gtag) gtag("event", name, params || {});
+        else if (S.GTM_ID && window.dataLayer) window.dataLayer.push(Object.assign({ event: name }, params || {}));
+      } catch (e) {}
+      return;
+    }
     params = params || {};
     params.kit = S.KIT;
     window.dataLayer = window.dataLayer || [];
